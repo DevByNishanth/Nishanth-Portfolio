@@ -76,7 +76,7 @@ const Hero = () => {
     }, [text, isDeleting, roleIndex]);
     return (
         <>
-            <div className="hero-main-container w-full lg:h-[90vh] relative">
+            <div className="hero-main-container w-full lg:h-[98vh] relative">
                 <div className="img-container w-full h-full">
                     <img src={heroBg} className="w-full h-full object-cover" />
                 </div>
