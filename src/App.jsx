@@ -1,10 +1,11 @@
-import Aboutus from "./components/Aboutus"
-import Hero from "./components/Hero"
+import Aboutus from "./components/Aboutus";
+import Hero from "./components/Hero";
 import HorizontalLine from "./components/HorizontalLine";
-import Projects from "./components/Projects"
+import Projects from "./components/Projects";
 import { motion } from "framer-motion";
 import SkillsSection from "./components/SkillsSection";
-
+import ContactMe from "./components/ContactMe";
+import Footer from "./components/Footer";
 
 const fadeUp = {
   hidden: {
@@ -35,8 +36,7 @@ const App = () => {
     <>
       <Hero />
       <Aboutus />
-      <div className="project-heading py-6 mt-3 bg-[#020b16]">
-
+      <div className="project-heading mt-3 bg-[#020b16]">
         <motion.div
           className="flex items-center justify-center gap-4 pt-10"
           variants={fadeUp}
@@ -46,8 +46,6 @@ const App = () => {
           <h1 className="mb-2 text-center text-xl font-medium text-[#871304]">
             My Projects
           </h1>
-
-
         </motion.div>
         <motion.div
           className="content text-3xl text-center text-[#ffffff]"
@@ -57,10 +55,8 @@ const App = () => {
             className="font-semibold -tracking-tight uppercase"
             variants={fadeUp}
           >
-            I BUILD PRODUCTS THAT {" "}
-            <span className="text-[#871304]">
-              SOLVE REAL PROBLEMS
-            </span>
+            I BUILD PRODUCTS THAT{" "}
+            <span className="text-[#871304]">SOLVE REAL PROBLEMS</span>
           </motion.h1>
 
           <motion.h1
@@ -71,10 +67,12 @@ const App = () => {
           </motion.h1>
         </motion.div>
       </div>
-      <Projects />
+      {/* <Projects /> */}
       <SkillsSection />
+      <ContactMe/>
+      <Footer/>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

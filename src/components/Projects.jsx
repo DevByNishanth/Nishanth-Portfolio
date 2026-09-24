@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -22,738 +21,308 @@ import bookMyCabsImage from "../assets/bookmycabs.png";
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+// ============================================================
+// Projects data (outside the component so it isn't recreated)
+// ============================================================
+
+const projects = [
+  {
+    title: "Aruna Caterer",
+    year: "2025",
+    category: "Web Application",
+    description:
+      "A complete catering management platform designed to manage bookings, customers, menus and day-to-day catering operations.",
+    image: arunaImage,
+  },
+  {
+    title: "Shadow Arrow",
+    year: "2025",
+    category: "Web Application",
+    description:
+      "A modern business platform built with a focus on clean user experience, responsive interfaces and efficient application workflows.",
+    image: shadowArrowImage,
+  },
+  {
+    title: "Avatar Public School",
+    year: "2025",
+    category: "Education",
+    description:
+      "A school management platform designed to provide students, parents and administrators with a simple and centralized digital experience.",
+    image: avatarImage,
+  },
+  {
+    title: "Explore Munnar",
+    year: "2025",
+    category: "Travel Platform",
+    description:
+      "A travel platform that helps users explore destinations, discover attractions and experience the beauty of Munnar through an engaging interface.",
+    image: exploreMunnarImage,
+  },
+  {
+    title: "Explore Munnar Admin",
+    year: "2025",
+    category: "Admin Dashboard",
+    description:
+      "An administration dashboard for managing destinations, attractions, bookings and content for the Explore Munnar platform.",
+    image: exploreMunnarDashboardImage,
+  },
+  {
+    title: "HRMS",
+    year: "2025",
+    category: "Management System",
+    description:
+      "A human resource management system designed to streamline employee management, attendance, leave and organizational workflows.",
+    image: hrmsImage,
+  },
+  {
+    title: "Events Management System",
+    year: "2025",
+    category: "Management System",
+    description:
+      "A centralized platform for creating, managing and tracking events with dedicated workflows for event requests and approvals.",
+    image: eventsImage,
+  },
+  {
+    title: "Appraisal System",
+    year: "2025",
+    category: "HR Management",
+    description:
+      "An employee appraisal platform that simplifies performance reviews, evaluations and organizational assessment workflows.",
+    image: appraisalImage,
+  },
+  {
+    title: "Learning Management System",
+    year: "2025",
+    category: "Education Platform",
+    description:
+      "A learning management platform that enables organizations to manage courses, learning content, users and educational workflows.",
+    image: lmsImage,
+  },
+  {
+    title: "Book My Cabs",
+    year: "2025",
+    category: "Transportation",
+    description:
+      "A cab booking platform designed to connect users with transportation services through a simple and efficient booking experience.",
+    image: bookMyCabsImage,
+  },
+];
 
 // ============================================================
 // Projects Component
 // ============================================================
 
 const Projects = () => {
+  const sectionRef = useRef(null);
 
-    // --------------------------------------------------------
-    // Section reference
-    // --------------------------------------------------------
+  // ========================================================
+  // GSAP STACK ANIMATION
+  // ========================================================
 
-    const sectionRef = useRef(null);
+  useGSAP(
+    () => {
+      const cards = gsap.utils.toArray(".project-card");
+      if (!cards.length) return;
 
+      const total = cards.length;
+      const stackOffset = 15; // px between stacked cards
+      const scaleStep = 0.03; // scale lost per stacked card
+      const visibleDepth = 4; // how many cards show behind the active one
 
-    // --------------------------------------------------------
-    // Projects data
-    // --------------------------------------------------------
+      // Static z-order: earlier cards are always above later ones
+      cards.forEach((card, i) => {
+        gsap.set(card, { zIndex: total - i, force3D: true });
+      });
 
-    const projects = [
-        {
-            title: "Aruna Caterer",
-            year: "2025",
-            category: "Web Application",
-            description:
-                "A complete catering management platform designed to manage bookings, customers, menus and day-to-day catering operations.",
-            image: arunaImage,
-        },
+      // Position every card based on progress (0 → total - 1)
+      const render = (progress) => {
+        cards.forEach((card, i) => {
+          const offset = i - progress;
 
-        {
-            title: "Shadow Arrow",
-            year: "2025",
-            category: "Web Application",
-            description:
-                "A modern business platform built with a focus on clean user experience, responsive interfaces and efficient application workflows.",
-            image: shadowArrowImage,
-        },
+          // 1. Already gone
+          if (offset <= -1) {
+            gsap.set(card, { autoAlpha: 0 });
+            return;
+          }
 
-        {
-            title: "Avatar Public School",
-            year: "2025",
-            category: "Education",
-            description:
-                "A school management platform designed to provide students, parents and administrators with a simple and centralized digital experience.",
-            image: avatarImage,
-        },
-
-        {
-            title: "Explore Munnar",
-            year: "2025",
-            category: "Travel Platform",
-            description:
-                "A travel platform that helps users explore destinations, discover attractions and experience the beauty of Munnar through an engaging interface.",
-            image: exploreMunnarImage,
-        },
-
-        {
-            title: "Explore Munnar Admin",
-            year: "2025",
-            category: "Admin Dashboard",
-            description:
-                "An administration dashboard for managing destinations, attractions, bookings and content for the Explore Munnar platform.",
-            image: exploreMunnarDashboardImage,
-        },
-
-        {
-            title: "HRMS",
-            year: "2025",
-            category: "Management System",
-            description:
-                "A human resource management system designed to streamline employee management, attendance, leave and organizational workflows.",
-            image: hrmsImage,
-        },
-
-        {
-            title: "Events Management System",
-            year: "2025",
-            category: "Management System",
-            description:
-                "A centralized platform for creating, managing and tracking events with dedicated workflows for event requests and approvals.",
-            image: eventsImage,
-        },
-
-        {
-            title: "Appraisal System",
-            year: "2025",
-            category: "HR Management",
-            description:
-                "An employee appraisal platform that simplifies performance reviews, evaluations and organizational assessment workflows.",
-            image: appraisalImage,
-        },
-
-        {
-            title: "Learning Management System",
-            year: "2025",
-            category: "Education Platform",
-            description:
-                "A learning management platform that enables organizations to manage courses, learning content, users and educational workflows.",
-            image: lmsImage,
-        },
-
-        {
-            title: "Book My Cabs",
-            year: "2025",
-            category: "Transportation",
-            description:
-                "A cab booking platform designed to connect users with transportation services through a simple and efficient booking experience.",
-            image: bookMyCabsImage,
-        },
-    ];
-
-
-    // ========================================================
-    // GSAP STACK ANIMATION
-    // ========================================================
-
-    useGSAP(
-        () => {
-
-            const cards = gsap.utils.toArray(".project-card");
-
-            if (!cards.length) {
-                return;
-            }
-
-            const totalCards = cards.length;
-
-            const scaleStep = 0.15 / totalCards;
-
-
-            // ------------------------------------------------
-            // Set initial card positions
-            // ------------------------------------------------
-
-            cards.forEach((card, index) => {
-
-                gsap.set(card, {
-                    y: -(15 * index),
-
-                    scale: 1 - scaleStep * index,
-
-                    zIndex: totalCards - index,
-
-                    opacity: 1,
-                });
-
+          // 2. Leaving: fully opaque, slides down
+          if (offset < 0) {
+            const t = -offset;
+            gsap.set(card, {
+              autoAlpha: 1,
+              yPercent: 130 * t * t,
+              scale: 1 + 0.03 * t,
             });
+            return;
+          }
 
+          // 3. Too deep in the stack: hidden (no fading)
+          if (offset > visibleDepth) {
+            gsap.set(card, { autoAlpha: 0 });
+            return;
+          }
 
-            // ------------------------------------------------
-            // Create timeline
-            // ------------------------------------------------
+          // 4. In the stack: always fully opaque
+          gsap.set(card, {
+            autoAlpha: 1,
+            yPercent: 0,
+            y: -stackOffset * offset,
+            scale: 1 - scaleStep * offset,
+          });
+        });
+      };
 
-            const timeline = gsap.timeline({
-                scrollTrigger: {
-                    trigger: sectionRef.current,
+      // Each card holds still for the first part of its scroll,
+      // then moves away smoothly during the rest.
+      const withHold = (p) => {
+        const i = Math.floor(p);
+        const f = p - i;
+        const hold = 0.31;
 
-                    start: "top top",
+        if (f < hold) return i;
 
-                    /*
-                     * One viewport of scroll for every
-                     * project transition.
-                     */
-                    end: `+=${window.innerHeight * (totalCards - 1)}`,
+        const t = (f - hold) / (1 - hold);
+        const eased = t * t * (3 - 2 * t); // smoothstep
+        return i + eased;
+      };
 
-                    scrub: 1,
+      render(0);
 
-                    pin: true,
+      const state = { progress: 0 };
 
-                    anticipatePin: 1,
-
-                    invalidateOnRefresh: true,
-
-                    markers: false,
-                },
-            });
-
-
-            // ------------------------------------------------
-            // Animate every card
-            // ------------------------------------------------
-
-            cards.forEach((card, index) => {
-
-                const nextCard = cards[index + 1];
-
-
-                // Last card has no next card
-                if (!nextCard) {
-                    return;
-                }
-
-
-                // All cards except current card
-                const otherCards = cards.filter(
-                    (_, cardIndex) => cardIndex !== index
-                );
-
-
-                // ------------------------------------------------
-                // Current card leaves
-                // ------------------------------------------------
-
-                timeline.to(
-                    card,
-                    {
-                        opacity: 0,
-
-                        scale: 1.1,
-
-                        y: 35,
-
-                        duration: 1,
-
-                        ease: "none",
-                    },
-                    "+=0.5"
-                );
-
-
-                // ------------------------------------------------
-                // Next card becomes front
-                // ------------------------------------------------
-
-                timeline.to(
-                    nextCard,
-                    {
-                        scale: 1,
-
-                        y: 0,
-
-                        zIndex: totalCards + 1,
-
-                        duration: 1,
-
-                        ease: "none",
-                    },
-                    "<"
-                );
-
-
-                // ------------------------------------------------
-                // Other cards move forward
-                // ------------------------------------------------
-
-                timeline.to(
-                    otherCards,
-                    {
-                        y: "+=15",
-
-                        scale: `+=${scaleStep}`,
-
-                        zIndex: "+=1",
-
-                        duration: 1,
-
-                        ease: "none",
-                    },
-                    "<"
-                );
-
-
-                // ------------------------------------------------
-                // Put old card behind everything
-                // ------------------------------------------------
-
-                timeline.set(card, {
-                    zIndex: 0,
-                });
-
-
-                // ------------------------------------------------
-                // Move old card to the back
-                // ------------------------------------------------
-
-                timeline.to(card, {
-                    y: -15 * (totalCards - 1),
-
-                    scale: 0.85,
-
-                    opacity: 1,
-
-                    duration: 0.01,
-
-                    ease: "none",
-                });
-
-            });
-
-
-            // ------------------------------------------------
-            // Refresh ScrollTrigger
-            // ------------------------------------------------
-
-            ScrollTrigger.refresh();
-
-
-            // ------------------------------------------------
-            // Cleanup
-            // ------------------------------------------------
-
-            return () => {
-                ScrollTrigger.getAll().forEach((trigger) => {
-                    trigger.kill();
-                });
-            };
-
+      gsap.to(state, {
+        progress: total - 1,
+        ease: "none",
+        onUpdate: () => render(withHold(state.progress)),
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: () => `+=${window.innerHeight * (total - 1)}`,
+          scrub: 0.6,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
-        {
-            scope: sectionRef,
-        }
-    );
+      });
 
+      // Re-measure once everything has loaded, so the pin is accurate
+      const refresh = () => ScrollTrigger.refresh();
+      window.addEventListener("load", refresh);
 
-    // ========================================================
-    // Framer Motion
-    // ========================================================
+      return () => window.removeEventListener("load", refresh);
+    },
+    { scope: sectionRef },
+  );
 
-    const fadeUp = {
-        hidden: {
-            opacity: 0,
-            y: 25,
-        },
+  // ========================================================
+  // RETURN
+  // ========================================================
 
-        visible: {
-            opacity: 1,
-            y: 0,
-
-            transition: {
-                duration: 0.7,
-
-                ease: "easeOut",
-            },
-        },
-    };
-
-
-    // ========================================================
-    // Horizontal Line
-    // ========================================================
-
-    const HorizontalLine = () => {
-        return (
-            <span
-                className="
-                    block
-                    h-[1px]
-                    w-10
-                    bg-[#871304]/40
-                    md:w-16
-                "
-            />
-        );
-    };
-
-
-    // ========================================================
-    // RETURN
-    // ========================================================
-
-    return (
-        <section
-            ref={sectionRef}
-            className="
-                relative
-                h-screen
-                w-full
+  return (
+    <section
+      ref={sectionRef}
+      className="relative h-screen w-full overflow-hidden bg-[#020b16]"
+    >
+      <div className="flex h-full w-full items-center justify-center  ">
+        <div className="cards relative h-[460px] w-[92%] max-w-[1100px] md:h-[500px] lg:h-[590px]">
+          {projects.map((project, index) => (
+            <article
+              key={project.title}
+              className="
+                project-card
+                absolute left-0 top-0
+                h-full w-full
                 overflow-hidden
-                bg-[#020b16]
-            "
-        >
-
-            <div
-                className="
-                    flex
-                    h-full
-                    w-full
-                    flex-col
-                    items-center
-                "
+                rounded-[22px]
+                border border-black/10
+                bg-[#f5f3ee]
+                shadow-[0_8px_24px_rgba(0,0,0,0.18)]
+                will-change-transform
+                [backface-visibility:hidden]
+              "
             >
+              <div className="grid h-full grid-cols-1 md:grid-cols-12">
+                {/* ===================== LEFT SIDE ===================== */}
 
-                {/* ====================================================
-                    SECTION HEADING
-                ===================================================== */}
-
-                <motion.div
-                    className="
-                        flex
-                        items-center
-                        justify-center
-                        gap-4
-                        pt-8
-                        md:pt-10
-                    "
-                    variants={fadeUp}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{
-                        once: true,
-                        amount: 0.3,
-                    }}
-                >
-
-                    <HorizontalLine />
-
-                    <h1
-                        className="
-                            mb-2
-                            text-center
-                            text-sm
-                            font-medium
-                            uppercase
-                            tracking-[0.3em]
-                            text-[#871304]
-                            md:text-xl
-                        "
-                    >
-                        My Projects
-                    </h1>
-
-                    <HorizontalLine />
-
-                </motion.div>
-
-
-                {/* ====================================================
-                    CARD AREA
-                ===================================================== */}
-
-                <div
-                    className="
-                        mt-8
-                        flex
-                        w-full
-                        flex-1
-                        items-center
-                        justify-center
-                        md:mt-10
-                    "
-                >
-
-                    <div
-                        className="
-                            cards
-                            relative
-                            h-[460px]
-                            w-[92%]
-                            max-w-[1100px]
-                            md:h-[500px]
-                            lg:h-[540px]
-                        "
-                    >
-
-                        {/* =================================================
-                            PROJECT CARDS
-                        ================================================== */}
-
-                        {projects.map((project, index) => (
-
-                            <article
-                                key={project.title}
-                                className="
-                                    project-card
-                                    absolute
-                                    left-0
-                                    top-0
-                                    
-                                    h-full
-                                    w-full
-                                    overflow-hidden
-                                    rounded-[22px]
-                                    border
-                                    border-black/10
-                                    bg-[#f5f3ee]
-                                    shadow-[0_30px_80px_rgba(0,0,0,0.35)]
-                                "
-                            >
-
-                                <div
-                                    className="
-                                        grid
-                                        h-full
-                                        grid-cols-1
-                                      md:grid-cols-12
-                                    "
-                                >
-
-                                    {/* =====================================
-                                        LEFT SIDE
-                                    ====================================== */}
-
-                                    <div
-                                        className="
-                                            flex
-                                            h-full
-                                            col-span-5
-                                            flex-col
-                                            justify-between
-                                            p-7
-                                            md:p-9
-                                            lg:p-12
-                                        "
-                                    >
-
-                                        <div>
-
-                                            {/* --------------------------------
-                                                Project Number
-                                            --------------------------------- */}
-
-                                            <div
-                                                className="
-                                                    mb-8
-                                                    flex
-                                                    h-10
-                                                    w-10
-                                                    items-center
-                                                    justify-center
-                                                    rounded-full
-                                                    border
-                                                    border-[#871304]/20
-                                                    text-xs
-                                                    font-medium
-                                                    text-[#871304]
-                                                    md:mb-10
-                                                "
-                                            >
-                                                {String(index + 1).padStart(
-                                                    2,
-                                                    "0"
-                                                )}
-                                            </div>
-
-
-                                            {/* --------------------------------
-                                                Year + Category
-                                            --------------------------------- */}
-
-                                            <p
-                                                className="
-                                                    mb-3
-                                                    text-[10px]
-                                                    font-medium
-                                                    uppercase
-                                                    tracking-[0.16em]
-                                                    text-[#871304]/70
-                                                    md:text-xs
-                                                "
-                                            >
-
-                                                {project.year}
-
-                                                <span className="mx-2">
-                                                    •
-                                                </span>
-
-                                                {project.category}
-
-                                            </p>
-
-
-                                            {/* --------------------------------
-                                                Project Title
-                                            --------------------------------- */}
-
-                                            <h2
-                                                className="
-                                                    max-w-[550px]
-                                                    text-3xl
-                                                    font-medium
-                                                    leading-[1]
-                                                    tracking-[-0.04em]
-                                                    text-[#111]
-                                                    md:text-4xl
-                                                    lg:text-5xl
-                                                    xl:text-6xl
-                                                "
-                                            >
-                                                {project.title}
-                                            </h2>
-
-
-                                            {/* --------------------------------
-                                                Description
-                                            --------------------------------- */}
-
-                                            <p
-                                                className="
-                                                    mt-5
-                                                    max-w-[480px]
-                                                    text-xs
-                                                    leading-5
-                                                    text-[#555]
-                                                    md:text-sm
-                                                    md:leading-6
-                                                    lg:text-base
-                                                "
-                                            >
-                                                {project.description}
-                                            </p>
-
-                                        </div>
-
-
-                                        {/* =================================
-                                            CASE STUDY BUTTON
-                                        ================================== */}
-
-                                        <div className="mt-6">
-
-                                            <button
-                                                type="button"
-                                                className="
-                                                    group
-                                                    inline-flex
-                                                    items-center
-                                                    gap-3
-                                                    rounded-full
-                                                    border
-                                                    border-[#871304]/25
-                                                    px-5
-                                                    py-2.5
-                                                    text-[10px]
-                                                    font-medium
-                                                    uppercase
-                                                    tracking-[0.08em]
-                                                    text-[#871304]
-                                                    transition-all
-                                                    duration-300
-                                                    hover:bg-[#871304]
-                                                    hover:text-white
-                                                    md:px-6
-                                                    md:py-3
-                                                    md:text-xs
-                                                "
-                                            >
-
-                                                View project
-
-                                                <span
-                                                    className="
-                                                        text-base
-                                                        transition-transform
-                                                        duration-300
-                                                        group-hover:translate-x-1
-                                                    "
-                                                >
-                                                    →
-                                                </span>
-
-                                            </button>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    {/* =====================================
-                                        RIGHT SIDE — IMAGE
-                                    ====================================== */}
-
-                                    <div
-                                        className="
-                                            relative
-                                            hidden
-                                            p-4
-                                             col-span-7
-                                            md:block
-                                            md:p-5
-                                            lg:p-6
-                                            
-                                        "
-                                    >
-
-                                        <div
-                                            className="
-                                                relative
-                                                h-full
-                                                w-full
-                                                overflow-hidden
-                                                rounded-[16px]
-                                                bg-[#ddd]
-                                            "
-                                        >
-
-                                            <img
-                                                src={project.image}
-                                                alt={project.title}
-                                                className="
-                                                    absolute
-                                                    inset-0
-                                                    h-full
-                                                    w-full
-                                                    object-cover
-                                                    transition-transform
-                                                    duration-700
-                                                    hover:scale-[1.03]
-                                                "
-                                            />
-
-                                            {/* Image Overlay */}
-
-                                            <div
-                                                className="
-                                                    pointer-events-none
-                                                    absolute
-                                                    inset-0
-                                                    bg-gradient-to-tr
-                                                    from-black/10
-                                                    via-transparent
-                                                    to-white/10
-                                                "
-                                            />
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </article>
-
-                        ))}
-
+                <div className="flex h-full flex-col justify-between p-7 md:col-span-5 md:p-9 lg:p-12">
+                  <div>
+                    {/* Project Number */}
+                    <div className="mb-8 flex h-10 w-10 items-center justify-center rounded-full border border-[#871304]/20 text-xs font-medium text-[#871304] md:mb-10">
+                      {String(index + 1).padStart(2, "0")}
                     </div>
 
+                    {/* Year + Category */}
+                    <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.16em] text-[#871304]/70 md:text-xs">
+                      {project.year}
+                      <span className="mx-2">•</span>
+                      {project.category}
+                    </p>
+
+                    {/* Project Title */}
+                    <h2 className="max-w-[550px] text-3xl font-medium leading-[1] tracking-[-0.04em] text-[#111] md:text-4xl lg:text-5xl xl:text-6xl">
+                      {project.title}
+                    </h2>
+
+                    {/* Description */}
+                    <p className="mt-5 max-w-[480px] text-xs leading-5 text-[#555] md:text-sm md:leading-6 lg:text-base">
+                      {project.description}
+                    </p>
+                  </div>
+
+                  {/* Button */}
+                  <div className="mt-6">
+                    <button
+                      type="button"
+                      className="
+                        group
+                        inline-flex items-center gap-3
+                        rounded-full
+                        border border-[#871304]/25
+                        px-5 py-2.5
+                        text-[10px] font-medium uppercase tracking-[0.08em]
+                        text-[#871304]
+                        transition-all duration-300
+                        hover:bg-[#871304] hover:text-white
+                        md:px-6 md:py-3 md:text-xs
+                      "
+                    >
+                      View project
+                      <span className="text-base transition-transform duration-300 group-hover:translate-x-1">
+                        →
+                      </span>
+                    </button>
+                  </div>
                 </div>
 
-            </div>
+                {/* ================== RIGHT SIDE — IMAGE ================== */}
 
-        </section>
-    );
+                <div className="relative hidden p-4 md:col-span-7 md:block md:p-5 lg:p-6">
+                  <div className="relative h-full w-full overflow-hidden rounded-[16px] bg-[#ddd]">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      decoding="async"
+                      className="
+                        absolute inset-0
+                        h-full w-full
+                        object-cover
+                        transition-transform duration-700
+                        hover:scale-[1.03]
+                      "
+                    />
+
+                    {/* Image Overlay */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10" />
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default Projects;
