@@ -78,35 +78,42 @@ const SkillsSection = () => {
 
           <h1 className="mb-2 text-xl font-medium text-[#871304]">Skills</h1>
         </motion.div>
-        <motion.div
-          className="content text-3xl text-[#101820]"
-          variants={aboutContainer}
-        >
-          <motion.h1
-            className="font-semibold -tracking-tight uppercase"
-            variants={fadeUp}
-          >
-            TECHNOLOGIES I WORK WITH{" "}
-          </motion.h1>
+      <motion.div
+  className="content text-3xl text-[#101820]"
+  variants={aboutContainer}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.3 }}
+>
+  <motion.h1
+    className="font-semibold -tracking-tight uppercase"
+    variants={fadeUp}
+  >
+    TECHNOLOGIES I WORK WITH
+  </motion.h1>
 
-          <motion.h1
-            className="font-semibold -tracking-tight"
-            variants={fadeUp}
-          >
-            I BUILD,{" "}
-            <span className="text-[#871304]">
-              SHIP & SCALE DIGITAL PRODUCTS
-            </span>
-          </motion.h1>
-          <motion.p className="text-sm mt-4 text-[#101820] w-[93%]" variants={fadeUp}>
-            I combine clean frontend development, powerful backend architecture,
-            smooth animations, and AI to create digital experiences that are
-            both functional and engaging. My toolkit spans React, Next.js,
-            JavaScript, Tailwind CSS, Framer Motion, GSAP, Node.js, Express.js,
-            MongoDB, Python, and RAG—giving me the flexibility to take a product
-            from idea to a complete, scalable experience.
-          </motion.p>
-        </motion.div>
+  <motion.h1
+    className="font-semibold -tracking-tight"
+    variants={fadeUp}
+  >
+    I BUILD,{" "}
+    <span className="text-[#871304]">
+      SHIP & SCALE DIGITAL PRODUCTS
+    </span>
+  </motion.h1>
+
+  <motion.p
+    className="text-sm mt-4 text-[#101820] w-[93%]"
+    variants={fadeUp}
+  >
+    I combine clean frontend development, powerful backend architecture,
+    smooth animations, and AI to create digital experiences that are
+    both functional and engaging. My toolkit spans React, Next.js,
+    JavaScript, Tailwind CSS, Framer Motion, GSAP, Node.js, Express.js,
+    MongoDB, Python, and RAG—giving me the flexibility to take a product
+    from idea to a complete, scalable experience.
+  </motion.p>
+</motion.div>
       </div>
 
       <div className="second-section mt-10 -rotate-14 flex flex-col overflow-hidden items-end w-[40%] min-w-0">

@@ -150,7 +150,7 @@ const SocialLink = ({
       href={href}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
-      className="group relative flex items-center justify-between
+      className="group relative flex px-4 items-center justify-between
                  overflow-hidden border-b border-[#f3e4d5]/20
                  py-3 cursor-pointer"
       whileHover="hover"
@@ -567,7 +567,7 @@ const Footer = () => {
           >
             ©'26 Nishanth
           </motion.h1>
-
+{/* 
           <motion.p
             initial={{
               opacity: 0,
@@ -585,7 +585,7 @@ const Footer = () => {
             className="hidden md:block text-xs mt-6"
           >
             Designed & developed by Nishanth
-          </motion.p>
+          </motion.p> */}
         </motion.div>
 
         {/* =================================================

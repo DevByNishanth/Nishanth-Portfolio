@@ -69,7 +69,9 @@ const App = () => {
       </div>
       <Projects />
       <SkillsSection />
-      <ContactMe />
+      <section id="contact">
+        <ContactMe />
+      </section>
       <Footer />
     </>
   );

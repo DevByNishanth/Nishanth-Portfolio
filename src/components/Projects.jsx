@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { motion, useScroll, useTransform } from "framer-motion";
+
 
 // ============================================================
 // Images
@@ -33,6 +35,7 @@ const projects = [
     description:
       "A complete catering management platform designed to manage bookings, customers, menus and day-to-day catering operations.",
     image: arunaImage,
+    link: "https://arunacaterer.com/"
   },
   {
     title: "Shadow Arrow",
@@ -41,6 +44,7 @@ const projects = [
     description:
       "A modern business platform built with a focus on clean user experience, responsive interfaces and efficient application workflows.",
     image: shadowArrowImage,
+    link: "https://shadowarrow.com/"
   },
   {
     title: "Avatar Public School",
@@ -49,6 +53,7 @@ const projects = [
     description:
       "A school management platform designed to provide students, parents and administrators with a simple and centralized digital experience.",
     image: avatarImage,
+    link: "https://avatarpublicschool.com/"
   },
   {
     title: "Explore Munnar",
@@ -57,6 +62,7 @@ const projects = [
     description:
       "A travel platform that helps users explore destinations, discover attractions and experience the beauty of Munnar through an engaging interface.",
     image: exploreMunnarImage,
+    link: "https://www.exploringmunnar.com/"
   },
   {
     title: "Explore Munnar Admin",
@@ -65,6 +71,7 @@ const projects = [
     description:
       "An administration dashboard for managing destinations, attractions, bookings and content for the Explore Munnar platform.",
     image: exploreMunnarDashboardImage,
+    link: "https://exploremunnardashboard.netlify.app/"
   },
   {
     title: "HRMS",
@@ -73,6 +80,7 @@ const projects = [
     description:
       "A human resource management system designed to streamline employee management, attendance, leave and organizational workflows.",
     image: hrmsImage,
+    link: "https://srieshwarems.com/"
   },
   {
     title: "Events Management System",
@@ -81,6 +89,7 @@ const projects = [
     description:
       "A centralized platform for creating, managing and tracking events with dedicated workflows for event requests and approvals.",
     image: eventsImage,
+    link: "https://srieshwarevents.com/"
   },
   {
     title: "Appraisal System",
@@ -89,6 +98,7 @@ const projects = [
     description:
       "An employee appraisal platform that simplifies performance reviews, evaluations and organizational assessment workflows.",
     image: appraisalImage,
+    link: "https://www.figma.com/design/x69g0wGXjAIop52zx4rd92/Appraisal-wireframe?node-id=0-1&p=f&t=J0uwLPZOWsIGR5BU-0"
   },
   {
     title: "Learning Management System",
@@ -97,6 +107,7 @@ const projects = [
     description:
       "A learning management platform that enables organizations to manage courses, learning content, users and educational workflows.",
     image: lmsImage,
+    link: "https://sece-lms.vercel.app/"
   },
   {
     title: "Book My Cabs",
@@ -105,6 +116,7 @@ const projects = [
     description:
       "A cab booking platform designed to connect users with transportation services through a simple and efficient booking experience.",
     image: bookMyCabsImage,
+    link: "https://bookmycabs.in/"
   },
 ];
 
@@ -114,6 +126,9 @@ const projects = [
 
 const Projects = () => {
   const sectionRef = useRef(null);
+
+
+
 
   // ========================================================
   // GSAP STACK ANIMATION
@@ -272,26 +287,37 @@ const Projects = () => {
 
                   {/* Button */}
                   <div className="mt-6">
-                    <button
+                    <motion.button
+                      onClick={() => window.open(project.link, "_blank", "noopener,noreferrer")}
                       type="button"
-                      className="
-                        group
-                        inline-flex items-center gap-3
-                        rounded-full
-                        border border-[#871304]/25
-                        px-5 py-2.5
-                        text-[10px] font-medium uppercase tracking-[0.08em]
-                        text-[#871304]
-                        transition-all duration-300
-                        hover:bg-[#871304] hover:text-white
-                        md:px-6 md:py-3 md:text-xs
-                      "
+                      className="group inline-flex items-center gap-3 rounded-full border border-[#871304]/25 px-5 py-2.5 text-[10px] font-medium uppercase tracking-[0.08em] text-[#871304] transition-all duration-300 hover:bg-[#871304] hover:text-white md:px-6 md:py-3 md:text-xs"
+                      whileHover={{
+                        scale: 1.05,
+                        transition: {
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 15,
+                        },
+                      }}
+                      whileTap={{
+                        scale: 0.95,
+                      }}
                     >
                       View project
-                      <span className="text-base transition-transform duration-300 group-hover:translate-x-1">
+
+                      <motion.span
+                        className="text-base"
+                        whileHover={{
+                          x: 4,
+                          transition: {
+                            duration: 0.2,
+                            ease: "easeOut",
+                          },
+                        }}
+                      >
                         →
-                      </span>
-                    </button>
+                      </motion.span>
+                    </motion.button>
                   </div>
                 </div>
 
