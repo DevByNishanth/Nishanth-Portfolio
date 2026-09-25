@@ -41,7 +41,7 @@ const charVariants = {
 const AnimatedLine = ({
   text,
   className = "",
-  size = "text-[80px]",
+  size = "text-5xl md:text-[80px]",
   delay = 0,
 }) => (
   <motion.h1
@@ -605,8 +605,8 @@ const ContactRow = ({ icon: Icon, text, href, className = "" }) => (
     variants={itemVariants}
     className={`group relative flex w-full items-center gap-4 pb-5 text-white ${className}`}
   >
-    <Icon className="transition-colors duration-300 group-hover:text-[#e0523a]" />
-    <p className="transition-transform duration-300 group-hover:translate-x-1.5">
+    <Icon className="transition-colors duration-300 group-hover:text-[#e0523a] shrink-0" />
+    <p className="transition-transform duration-300 group-hover:translate-x-1.5 break-all text-sm md:text-base">
       {text}
     </p>
 
@@ -625,10 +625,10 @@ const ContactRow = ({ icon: Icon, text, href, className = "" }) => (
 const ContactMe = () => {
   return (
     <>
-      <div className="main-container px-14 mt-3 py-5 bg-[#020b16]">
+      <div id="contact" className="main-container px-4 sm:px-6 md:px-8 lg:px-14 mt-3 py-5 bg-[#020b16]">
         <div className="big-title relative pb-5 text-white">
-          <AnimatedLine text="LET'S TALK ABOUT" />
-          <AnimatedLine text="YOUR PROJECT" className="-mt-8" />
+          <AnimatedLine text="LET'S TALK ABOUT" size="text-4xl sm:text-5xl md:text-[80px]" className="leading-tight" />
+          <AnimatedLine text="YOUR PROJECT" className="-mt-1 sm:-mt-2 md:-mt-8 leading-tight" size="text-4xl sm:text-5xl md:text-[80px]" />
 
           {/* Replaces border-b: draws itself left to right */}
           <motion.div
@@ -640,8 +640,8 @@ const ContactMe = () => {
           />
         </div>
 
-        <div className="contact-form-section mt-5 flex gap-4 ">
-          <div className="first-container w-[40%]">
+        <div className="contact-form-section mt-8 md:mt-5 flex flex-col md:flex-row gap-10 md:gap-4 ">
+          <div className="first-container w-full md:w-[40%]">
             <motion.header
               variants={formVariants}
               initial="hidden"
@@ -664,13 +664,13 @@ const ContactMe = () => {
               {/* Same letter-by-letter reveal as the main title */}
               <AnimatedLine
                 text="GET IN"
-                size="text-[50px]"
+                size="text-4xl md:text-[50px]"
                 className="text-white"
                 delay={0.2}
               />
               <AnimatedLine
                 text="TOUCH"
-                size="text-[50px]"
+                size="text-4xl md:text-[50px]"
                 className="text-white"
                 delay={0.35}
               />
@@ -691,7 +691,7 @@ const ContactMe = () => {
             </motion.header>
           </div>
 
-          <div className="second-container flex-1 pl-16 pb-10 pt-4">
+          <div className="second-container flex-1 pl-0 md:pl-16 pb-10 pt-0 md:pt-4">
             <ContactForm />
           </div>
         </div>

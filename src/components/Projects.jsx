@@ -140,92 +140,95 @@ const Projects = () => {
       if (!cards.length) return;
 
       const total = cards.length;
-      const stackOffset = 15; // px between stacked cards
-      const scaleStep = 0.03; // scale lost per stacked card
-      const visibleDepth = 4; // how many cards show behind the active one
+      
+      let mm = gsap.matchMedia();
 
-      // Static z-order: earlier cards are always above later ones
-      cards.forEach((card, i) => {
-        gsap.set(card, { zIndex: total - i, force3D: true });
-      });
+      mm.add({
+        isDesktop: "(min-width: 768px)",
+        isMobile: "(max-width: 767px)"
+      }, (context) => {
+        let { isDesktop, isMobile } = context.conditions;
 
-      // Position every card based on progress (0 → total - 1)
-      const render = (progress) => {
+        const stackOffset = isDesktop ? 15 : 10;
+        const scaleStep = isDesktop ? 0.03 : 0.02;
+        const visibleDepth = isDesktop ? 4 : 3;
+
         cards.forEach((card, i) => {
-          const offset = i - progress;
+          gsap.set(card, { zIndex: total - i, force3D: true });
+        });
 
-          // 1. Already gone
-          if (offset <= -1) {
-            gsap.set(card, { autoAlpha: 0 });
-            return;
-          }
+        const render = (progress) => {
+          cards.forEach((card, i) => {
+            const offset = i - progress;
 
-          // 2. Leaving: fully opaque, slides down
-          if (offset < 0) {
-            const t = -offset;
+            if (offset <= -1) {
+              gsap.set(card, { autoAlpha: 0 });
+              return;
+            }
+
+            if (offset < 0) {
+              const t = -offset;
+              gsap.set(card, {
+                autoAlpha: 1,
+                yPercent: (isDesktop ? 130 : 110) * t * t,
+                scale: 1 + (isDesktop ? 0.03 : 0.02) * t,
+              });
+              return;
+            }
+
+            if (offset > visibleDepth) {
+              gsap.set(card, { autoAlpha: 0 });
+              return;
+            }
+
             gsap.set(card, {
               autoAlpha: 1,
-              yPercent: 130 * t * t,
-              scale: 1 + 0.03 * t,
+              yPercent: 0,
+              y: -stackOffset * offset,
+              scale: 1 - scaleStep * offset,
             });
-            return;
-          }
-
-          // 3. Too deep in the stack: hidden (no fading)
-          if (offset > visibleDepth) {
-            gsap.set(card, { autoAlpha: 0 });
-            return;
-          }
-
-          // 4. In the stack: always fully opaque
-          gsap.set(card, {
-            autoAlpha: 1,
-            yPercent: 0,
-            y: -stackOffset * offset,
-            scale: 1 - scaleStep * offset,
           });
+        };
+
+        const withHold = (p) => {
+          const i = Math.floor(p);
+          const f = p - i;
+          const hold = 0.31;
+
+          if (f < hold) return i;
+
+          const t = (f - hold) / (1 - hold);
+          const eased = t * t * (3 - 2 * t);
+          return i + eased;
+        };
+
+        render(0);
+
+        const state = { progress: 0 };
+
+        gsap.to(state, {
+          progress: total - 1,
+          ease: "none",
+          onUpdate: () => render(withHold(state.progress)),
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${window.innerHeight * (isDesktop ? (total - 1) : (total - 1) * 0.8)}`,
+            scrub: isDesktop ? 0.6 : 0.8,
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
         });
-      };
-
-      // Each card holds still for the first part of its scroll,
-      // then moves away smoothly during the rest.
-      const withHold = (p) => {
-        const i = Math.floor(p);
-        const f = p - i;
-        const hold = 0.31;
-
-        if (f < hold) return i;
-
-        const t = (f - hold) / (1 - hold);
-        const eased = t * t * (3 - 2 * t); // smoothstep
-        return i + eased;
-      };
-
-      render(0);
-
-      const state = { progress: 0 };
-
-      gsap.to(state, {
-        progress: total - 1,
-        ease: "none",
-        onUpdate: () => render(withHold(state.progress)),
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: () => `+=${window.innerHeight * (total - 1)}`,
-          scrub: 0.6,
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
       });
 
-      // Re-measure once everything has loaded, so the pin is accurate
       const refresh = () => ScrollTrigger.refresh();
       window.addEventListener("load", refresh);
 
-      return () => window.removeEventListener("load", refresh);
+      return () => {
+          window.removeEventListener("load", refresh);
+      };
     },
     { scope: sectionRef },
   );
@@ -240,7 +243,7 @@ const Projects = () => {
       className="relative h-screen w-full overflow-hidden bg-[#020b16]"
     >
       <div className="flex h-full w-full items-center justify-center  ">
-        <div className="cards relative h-[460px] w-[92%] max-w-[1100px] md:h-[500px] lg:h-[590px]">
+        <div className="cards relative h-[520px] w-[92%] max-w-[1100px] md:h-[500px] lg:h-[590px]">
           {projects.map((project, index) => (
             <article
               key={project.title}
@@ -257,36 +260,47 @@ const Projects = () => {
                 [backface-visibility:hidden]
               "
             >
-              <div className="grid h-full grid-cols-1 md:grid-cols-12">
-                {/* ===================== LEFT SIDE ===================== */}
+              <div className="flex h-full flex-col md:grid md:grid-cols-12">
+                {/* ===================== CONTENT SIDE ===================== */}
 
-                <div className="flex h-full flex-col justify-between p-7 md:col-span-5 md:p-9 lg:p-12">
+                <div className="flex flex-col flex-1 justify-between p-5 sm:p-7 md:col-span-5 md:p-9 lg:p-12 overflow-y-auto custom-scrollbar md:overflow-visible">
                   <div>
                     {/* Project Number */}
-                    <div className="mb-8 flex h-10 w-10 items-center justify-center rounded-full border border-[#871304]/20 text-xs font-medium text-[#871304] md:mb-10">
+                    <div className="mb-4 md:mb-10 flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full border border-[#871304]/20 text-[10px] md:text-xs font-medium text-[#871304]">
                       {String(index + 1).padStart(2, "0")}
                     </div>
 
                     {/* Year + Category */}
-                    <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.16em] text-[#871304]/70 md:text-xs">
+                    <p className="mb-2 md:mb-3 text-[10px] font-medium uppercase tracking-[0.16em] text-[#871304]/70 md:text-xs">
                       {project.year}
                       <span className="mx-2">•</span>
                       {project.category}
                     </p>
 
                     {/* Project Title */}
-                    <h2 className="max-w-[550px] text-3xl font-medium leading-[1] tracking-[-0.04em] text-[#111] md:text-4xl lg:text-5xl xl:text-6xl">
+                    <h2 className="mb-3 md:mb-0 max-w-[550px] text-2xl sm:text-3xl font-medium leading-[1] tracking-[-0.04em] text-[#111] md:text-4xl lg:text-5xl xl:text-6xl">
                       {project.title}
                     </h2>
 
+                    {/* Mobile Image */}
+                    <div className="relative block md:hidden w-full h-[160px] sm:h-[200px] mb-4 rounded-[12px] overflow-hidden bg-[#ddd]">
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        decoding="async"
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10" />
+                    </div>
+
                     {/* Description */}
-                    <p className="mt-5 max-w-[480px] text-xs leading-5 text-[#555] md:text-sm md:leading-6 lg:text-base">
+                    <p className="mt-2 md:mt-5 max-w-[480px] text-xs leading-5 text-[#555] sm:text-sm md:leading-6 lg:text-base">
                       {project.description}
                     </p>
                   </div>
 
                   {/* Button */}
-                  <div className="mt-6">
+                  <div className="mt-4 md:mt-6 mb-2 md:mb-0">
                     <motion.button
                       onClick={() => window.open(project.link, "_blank", "noopener,noreferrer")}
                       type="button"

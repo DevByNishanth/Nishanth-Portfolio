@@ -1,152 +1,9 @@
-import React from 'react'
-// import heroBg from '../assets/hero.jfif'
-import { useEffect, useState } from "react";
-import { Code2, ArrowUpRight, Bot } from "lucide-react";
-import heroBg from '../assets/HeroBg.jpeg'
-import heroPhoto from '../assets/heroPhoto.jpg'
-import { motion } from "framer-motion";
+import re
 
-const descriptionLines = [
-    "BUILDING MODERN WEB APPLICATIONS",
-    "WITH CLEAN CODE, CREATIVE SOLUTIONS",
-    "AND A PASSION FOR TECHNOLOGY.",
-    "TURNING IDEAS INTO DIGITAL PRODUCTS",
-    "THAT ARE BUILT TO MAKE AN IMPACT.",
-];
+with open('src/components/Hero.jsx', 'r', encoding='utf-8') as f:
+    content = f.read()
 
-const containerVariants = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.35,
-        },
-    },
-};
-
-const cardVariants = {
-    hidden: {
-        opacity: 0,
-        y: 80,
-    },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.8,
-            ease: [0.22, 1, 0.36, 1],
-        },
-    },
-};
-
-
-const Hero = () => {
-    const roles = [
-        "FULL STACK DEVELOPER",
-        "FRONTEND ENTHUSIAST",
-        "FREELANCER",
-        "PRODUCT THINKER",
-    ];
-
-    const profileCardVariants = {
-        hidden: {
-            opacity: 0,
-            x: 100,
-            y: 80,
-            rotateX: 20,
-            rotateY: -12,
-            scale: 0.85,
-            filter: "blur(10px)",
-        },
-        visible: {
-            opacity: 1,
-            x: 0,
-            y: 0,
-            rotateX: 0,
-            rotateY: 0,
-            scale: 1,
-            filter: "blur(0px)",
-            transition: {
-                type: "spring",
-                stiffness: 80,
-                damping: 14,
-                mass: 0.8,
-                delay: 1.5,
-            },
-        },
-    };
-
-    const profileImageVariants = {
-        hidden: {
-            opacity: 0,
-            scale: 1.3,
-            x: -20,
-        },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            x: 0,
-            transition: {
-                duration: 0.9,
-                delay: 1.9,
-                ease: [0.22, 1, 0.36, 1],
-            },
-        },
-    };
-
-    const profileContentVariants = {
-        hidden: {},
-        visible: {
-            transition: {
-                delayChildren: 2,
-                staggerChildren: 0.12,
-            },
-        },
-    };
-
-    const profileItemVariants = {
-        hidden: {
-            opacity: 0,
-            y: 15,
-        },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.5,
-                ease: [0.22, 1, 0.36, 1],
-            },
-        },
-    };
-
-    const [text, setText] = useState("");
-    const [roleIndex, setRoleIndex] = useState(0);
-    const [isDeleting, setIsDeleting] = useState(false);
-
-    useEffect(() => {
-        const currentRole = roles[roleIndex];
-
-        const typingSpeed = isDeleting ? 50 : 100;
-
-        const timer = setTimeout(() => {
-            if (!isDeleting) {
-                setText(currentRole.substring(0, text.length + 1));
-
-                if (text.length === currentRole.length) {
-                    setTimeout(() => setIsDeleting(true), 1000);
-                }
-            } else {
-                setText(currentRole.substring(0, text.length - 1));
-
-                if (text.length === 0) {
-                    setIsDeleting(false);
-                    setRoleIndex((prev) => (prev + 1) % roles.length);
-                }
-            }
-        }, typingSpeed);
-
-        return () => clearTimeout(timer);
-    }, [text, isDeleting, roleIndex]);
-    return (
+new_jsx = """    return (
         <>
             <div className="hero-main-container w-full min-h-[100svh] lg:h-[100vh] relative flex flex-col lg:block overflow-hidden">
                 <div className="img-container absolute inset-0 z-0">
@@ -450,3 +307,9 @@ const Hero = () => {
 }
 
 export default Hero
+"""
+
+content = re.sub(r'    return \(\n        <>\n            <div className="hero-main-container w-full lg:h-\[100vh\] relative">.*', new_jsx, content, flags=re.DOTALL)
+
+with open('src/components/Hero.jsx', 'w', encoding='utf-8') as f:
+    f.write(content)

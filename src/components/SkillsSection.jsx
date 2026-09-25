@@ -48,8 +48,8 @@ const aboutContainer = {
 
 const SkillCard = ({ image }) => {
   return (
-    <div className="icon-card bg-white shadow-gray-700 shadow-md p-2 rounded-lg shrink-0">
-      <img src={image} className="w-13 h-13 object-contain" alt="" />
+    <div className="icon-card bg-white shadow-gray-700 shadow-md p-1.5 md:p-2 rounded-lg shrink-0">
+      <img src={image} className="w-8 h-8 md:w-[52px] md:h-[52px] object-contain" alt="" />
     </div>
   );
 };
@@ -62,8 +62,8 @@ const SkillsSection = () => {
   const thirdRowX = useTransform(scrollYProgress, [0, 1], [130, -150]);
 
   return (
-    <div className="main-container pl-14 flex gap-4 overflow-hidden  py-12 ">
-      <div className="first-section w-[60%]">
+    <div className="main-container pl-4 sm:pl-6 md:pl-8 lg:pl-14 flex flex-col md:flex-row gap-8 md:gap-4 overflow-hidden py-12">
+      <div className="first-section w-full md:w-[60%]">
         <motion.div
           className="heading flex items-center  gap-2"
           variants={fadeUp}
@@ -103,7 +103,7 @@ const SkillsSection = () => {
   </motion.h1>
 
   <motion.p
-    className="text-sm mt-4 text-[#101820] w-[93%]"
+    className="text-sm mt-4 text-[#101820] w-full md:w-[93%]"
     variants={fadeUp}
   >
     I combine clean frontend development, powerful backend architecture,
@@ -116,8 +116,8 @@ const SkillsSection = () => {
 </motion.div>
       </div>
 
-      <div className="second-section mt-10 -rotate-14 flex flex-col overflow-hidden items-end w-[40%] min-w-0">
-        <div className="logos-contain overflow-hidden w-full min-w-0">
+      <div className="second-section mt-10 md:-rotate-14 -rotate-[8deg] flex flex-col overflow-hidden items-center md:items-end w-full md:w-[40%] min-w-0 self-center">
+        <div className="logos-contain overflow-hidden w-[120%] md:w-full min-w-0">
           <div className="icons">
             {/* ================= ROW 1 → LEFT ================= */}
 
@@ -127,13 +127,13 @@ const SkillsSection = () => {
                 x: ["0%", "-50%"],
               }}
               transition={{
-                duration: 10,
+                duration: 15,
                 repeat: Infinity,
                 ease: "linear",
               }}
             >
               {/* First set */}
-              <div className="flex gap-4 pr-4">
+              <div className="flex gap-3 md:gap-4 pr-3 md:pr-4">
                 <SkillCard image={html} />
                 <SkillCard image={css} />
                 <SkillCard image={javascript} />
@@ -143,7 +143,7 @@ const SkillsSection = () => {
               </div>
 
               {/* Duplicate set */}
-              <div className="flex gap-4 pr-4">
+              <div className="flex gap-3 md:gap-4 pr-3 md:pr-4">
                 <SkillCard image={html} />
                 <SkillCard image={css} />
                 <SkillCard image={javascript} />
@@ -155,20 +155,20 @@ const SkillsSection = () => {
 
             {/* ================= ROW 2 → RIGHT ================= */}
 
-            <div className="translate-x-[100px] overflow-hidden mt-4">
+            <div className="md:translate-x-[100px] translate-x-[20px] overflow-hidden mt-3 md:mt-4">
               <motion.div
                 className="flex w-max"
                 animate={{
                   x: ["-50%", "0%"],
                 }}
                 transition={{
-                  duration: 10,
+                  duration: 15,
                   repeat: Infinity,
                   ease: "linear",
                 }}
               >
                 {/* First set */}
-                <div className="flex gap-4 pr-4">
+                <div className="flex gap-3 md:gap-4 pr-3 md:pr-4">
                   <SkillCard image={mui} />
                   <SkillCard image={framer} />
                   <SkillCard image={nodejs} />
@@ -178,7 +178,7 @@ const SkillsSection = () => {
                 </div>
 
                 {/* Duplicate set */}
-                <div className="flex gap-4 pr-4">
+                <div className="flex gap-3 md:gap-4 pr-3 md:pr-4">
                   <SkillCard image={mui} />
                   <SkillCard image={framer} />
                   <SkillCard image={nodejs} />
@@ -191,20 +191,20 @@ const SkillsSection = () => {
 
             {/* ================= ROW 3 → LEFT ================= */}
 
-            <div className="translate-x-[210px] overflow-hidden mt-4">
+            <div className="md:translate-x-[210px] translate-x-[60px] overflow-hidden mt-3 md:mt-4">
               <motion.div
                 className="flex w-max"
                 animate={{
                   x: ["0%", "-50%"],
                 }}
                 transition={{
-                  duration: 10,
+                  duration: 15,
                   repeat: Infinity,
                   ease: "linear",
                 }}
               >
                 {/* First set */}
-                <div className="flex gap-4 pr-4">
+                <div className="flex gap-3 md:gap-4 pr-3 md:pr-4">
                   <SkillCard image={express} />
                   <SkillCard image={chatgpt} />
                   <SkillCard image={tailwind} />
@@ -214,7 +214,7 @@ const SkillsSection = () => {
                 </div>
 
                 {/* Duplicate set */}
-                <div className="flex gap-4 pr-4">
+                <div className="flex gap-3 md:gap-4 pr-3 md:pr-4">
                   <SkillCard image={express} />
                   <SkillCard image={chatgpt} />
                   <SkillCard image={tailwind} />

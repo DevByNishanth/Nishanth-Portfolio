@@ -52,7 +52,7 @@ const App = () => {
         </motion.div>
 
         <motion.div
-          className="content text-3xl text-center text-[#ffffff]"
+          className="content text-xl sm:text-2xl md:text-3xl text-center text-[#ffffff] px-4 sm:px-6 md:px-8 mt-4"
           variants={aboutContainer}
           initial="hidden"
           whileInView="visible"
@@ -67,7 +67,7 @@ const App = () => {
           </motion.h1>
 
           <motion.h1
-            className="font-semibold -tracking-tight"
+            className="font-semibold -tracking-tight mt-1"
             variants={fadeUp}
           >
             I SHIP CODE THAT MAKES AN IMPACT

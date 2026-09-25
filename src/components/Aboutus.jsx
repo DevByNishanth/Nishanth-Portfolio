@@ -116,17 +116,18 @@ const Aboutus = () => {
 
     return (
         <>
-            <motion.div
-                className="main-container mt-3 grid grid-cols-12 gap-4 px-14"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.25 }}
-            >
-                {/* LEFT SECTION */}
+            <div id="about-us">
                 <motion.div
-                    className="first-container col-span-7 flex flex-col justify-center"
-                    variants={aboutContainer}
+                    className="main-container mt-3 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 px-4 sm:px-6 md:px-8 lg:px-14"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.25 }}
                 >
+                    {/* LEFT SECTION */}
+                    <motion.div
+                        className="first-container col-span-1 md:col-span-7 flex flex-col justify-center order-2 md:order-1"
+                        variants={aboutContainer}
+                    >
                     {/* Section heading */}
                     <motion.div
                         className="heading flex items-center gap-2"
@@ -141,7 +142,7 @@ const Aboutus = () => {
 
                     {/* Main content */}
                     <motion.div
-                        className="content text-3xl text-[#101820]"
+                        className="content text-xl md:text-3xl text-[#101820]"
                         variants={aboutContainer}
                     >
                         <motion.h1
@@ -221,13 +222,13 @@ const Aboutus = () => {
 
                 {/* RIGHT SECTION */}
                 <motion.div
-                    className="second-container col-span-5"
+                    className="second-container col-span-1 md:col-span-5 order-1 md:order-2 mb-6 md:mb-0"
                     variants={imageAnimation}
                 >
                     <motion.img
                         src={aboutImg}
                         alt="aboutUs"
-                        className="w-full h-[450px] object-cover"
+                        className="w-full h-auto max-h-[300px] md:max-h-[450px] object-cover rounded-xl md:rounded-none"
                         initial={{ scale: 1.08 }}
                         whileInView={{ scale: 1 }}
                         viewport={{ once: true }}
@@ -238,6 +239,7 @@ const Aboutus = () => {
                     />
                 </motion.div>
             </motion.div>
+            </div>
         </>
     )
 }
