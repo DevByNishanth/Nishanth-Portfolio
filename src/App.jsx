@@ -67,10 +67,10 @@ const App = () => {
           </motion.h1>
         </motion.div>
       </div>
-      {/* <Projects /> */}
+      <Projects />
       <SkillsSection />
-      <ContactMe/>
-      <Footer/>
+      <ContactMe />
+      <Footer />
     </>
   );
 };
