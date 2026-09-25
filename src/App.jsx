@@ -40,6 +40,9 @@ const App = () => {
         <motion.div
           className="flex items-center justify-center gap-4 pt-10"
           variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
         >
           <HorizontalLine />
 
@@ -47,9 +50,13 @@ const App = () => {
             My Projects
           </h1>
         </motion.div>
+
         <motion.div
           className="content text-3xl text-center text-[#ffffff]"
           variants={aboutContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
         >
           <motion.h1
             className="font-semibold -tracking-tight uppercase"

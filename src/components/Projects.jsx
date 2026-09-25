@@ -30,7 +30,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 const projects = [
   {
     title: "Aruna Caterer",
-    year: "2025",
+    year: "2024",
     category: "Web Application",
     description:
       "A complete catering management platform designed to manage bookings, customers, menus and day-to-day catering operations.",
@@ -39,7 +39,7 @@ const projects = [
   },
   {
     title: "Shadow Arrow",
-    year: "2025",
+    year: "2024",
     category: "Web Application",
     description:
       "A modern business platform built with a focus on clean user experience, responsive interfaces and efficient application workflows.",
@@ -66,7 +66,7 @@ const projects = [
   },
   {
     title: "Explore Munnar Admin",
-    year: "2025",
+    year: "2026",
     category: "Admin Dashboard",
     description:
       "An administration dashboard for managing destinations, attractions, bookings and content for the Explore Munnar platform.",
@@ -75,7 +75,7 @@ const projects = [
   },
   {
     title: "HRMS",
-    year: "2025",
+    year: "2026",
     category: "Management System",
     description:
       "A human resource management system designed to streamline employee management, attendance, leave and organizational workflows.",
@@ -84,7 +84,7 @@ const projects = [
   },
   {
     title: "Events Management System",
-    year: "2025",
+    year: "2026",
     category: "Management System",
     description:
       "A centralized platform for creating, managing and tracking events with dedicated workflows for event requests and approvals.",
@@ -102,7 +102,7 @@ const projects = [
   },
   {
     title: "Learning Management System",
-    year: "2025",
+    year: "2026",
     category: "Education Platform",
     description:
       "A learning management platform that enables organizations to manage courses, learning content, users and educational workflows.",
