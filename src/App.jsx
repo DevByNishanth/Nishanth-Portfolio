@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import SkillsSection from "./components/SkillsSection";
 import ContactMe from "./components/ContactMe";
 import Footer from "./components/Footer";
+import MyTeam from "./components/MyTeam";
+import OurServices from "./components/Ourservices";
 
 const fadeUp = {
   hidden: {
@@ -75,6 +77,8 @@ const App = () => {
         </motion.div>
       </div>
       <Projects />
+      <MyTeam/>
+      <OurServices/>
       <SkillsSection />
       <section id="contact">
         <ContactMe />

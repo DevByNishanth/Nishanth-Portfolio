@@ -805,7 +805,7 @@ const ContactMe = () => {
     <>
       <div
         id="contact"
-        className="main-container mt-3 bg-[#020b16] px-4 py-5 sm:px-6 md:px-8 lg:px-14"
+        className="main-container bg-[#020b16] px-4 py-10 sm:px-6 md:px-8 lg:px-14"
       >
         <div className="big-title relative pb-5 text-white">
           <AnimatedLine
