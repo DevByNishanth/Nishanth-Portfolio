@@ -3,7 +3,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { motion, useScroll, useTransform } from "framer-motion";
-
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // ============================================================
 // Images
@@ -19,7 +20,7 @@ import eventsImage from "../assets/events.png";
 import appraisalImage from "../assets/appraisal.jpg";
 import lmsImage from "../assets/lms.png";
 import bookMyCabsImage from "../assets/bookmycabs.png";
-
+import { projects } from "../data/projects";
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -27,98 +28,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 // Projects data (outside the component so it isn't recreated)
 // ============================================================
 
-const projects = [
-  {
-    title: "Aruna Caterer",
-    year: "2024",
-    category: "Web Application",
-    description:
-      "A complete catering management platform designed to manage bookings, customers, menus and day-to-day catering operations.",
-    image: arunaImage,
-    link: "https://arunacaterer.com/"
-  },
-  {
-    title: "Shadow Arrow",
-    year: "2024",
-    category: "Web Application",
-    description:
-      "A modern business platform built with a focus on clean user experience, responsive interfaces and efficient application workflows.",
-    image: shadowArrowImage,
-    link: "https://shadowarrow.com/"
-  },
-  {
-    title: "Avatar Public School",
-    year: "2025",
-    category: "Education",
-    description:
-      "A school management platform designed to provide students, parents and administrators with a simple and centralized digital experience.",
-    image: avatarImage,
-    link: "https://avatarpublicschool.com/"
-  },
-  {
-    title: "Explore Munnar",
-    year: "2025",
-    category: "Travel Platform",
-    description:
-      "A travel platform that helps users explore destinations, discover attractions and experience the beauty of Munnar through an engaging interface.",
-    image: exploreMunnarImage,
-    link: "https://www.exploringmunnar.com/"
-  },
-  {
-    title: "Explore Munnar Admin",
-    year: "2026",
-    category: "Admin Dashboard",
-    description:
-      "An administration dashboard for managing destinations, attractions, bookings and content for the Explore Munnar platform.",
-    image: exploreMunnarDashboardImage,
-    link: "https://exploremunnardashboard.netlify.app/"
-  },
-  {
-    title: "HRMS",
-    year: "2026",
-    category: "Management System",
-    description:
-      "A human resource management system designed to streamline employee management, attendance, leave and organizational workflows.",
-    image: hrmsImage,
-    link: "https://srieshwarems.com/"
-  },
-  {
-    title: "Events Management System",
-    year: "2026",
-    category: "Management System",
-    description:
-      "A centralized platform for creating, managing and tracking events with dedicated workflows for event requests and approvals.",
-    image: eventsImage,
-    link: "https://srieshwarevents.com/"
-  },
-  {
-    title: "Appraisal System",
-    year: "2025",
-    category: "HR Management",
-    description:
-      "An employee appraisal platform that simplifies performance reviews, evaluations and organizational assessment workflows.",
-    image: appraisalImage,
-    link: "https://www.figma.com/design/x69g0wGXjAIop52zx4rd92/Appraisal-wireframe?node-id=0-1&p=f&t=J0uwLPZOWsIGR5BU-0"
-  },
-  {
-    title: "Learning Management System",
-    year: "2026",
-    category: "Education Platform",
-    description:
-      "A learning management platform that enables organizations to manage courses, learning content, users and educational workflows.",
-    image: lmsImage,
-    link: "https://sece-lms.vercel.app/"
-  },
-  {
-    title: "Book My Cabs",
-    year: "2025",
-    category: "Transportation",
-    description:
-      "A cab booking platform designed to connect users with transportation services through a simple and efficient booking experience.",
-    image: bookMyCabsImage,
-    link: "https://bookmycabs.in/"
-  },
-];
+
 
 // ============================================================
 // Projects Component
@@ -126,9 +36,6 @@ const projects = [
 
 const Projects = () => {
   const sectionRef = useRef(null);
-
-
-
 
   // ========================================================
   // GSAP STACK ANIMATION
@@ -140,94 +47,98 @@ const Projects = () => {
       if (!cards.length) return;
 
       const total = cards.length;
-      
+
       let mm = gsap.matchMedia();
 
-      mm.add({
-        isDesktop: "(min-width: 768px)",
-        isMobile: "(max-width: 767px)"
-      }, (context) => {
-        let { isDesktop, isMobile } = context.conditions;
+      mm.add(
+        {
+          isDesktop: "(min-width: 768px)",
+          isMobile: "(max-width: 767px)",
+        },
+        (context) => {
+          let { isDesktop, isMobile } = context.conditions;
 
-        const stackOffset = isDesktop ? 15 : 10;
-        const scaleStep = isDesktop ? 0.03 : 0.02;
-        const visibleDepth = isDesktop ? 4 : 3;
+          const stackOffset = isDesktop ? 15 : 10;
+          const scaleStep = isDesktop ? 0.03 : 0.02;
+          const visibleDepth = isDesktop ? 4 : 3;
 
-        cards.forEach((card, i) => {
-          gsap.set(card, { zIndex: total - i, force3D: true });
-        });
-
-        const render = (progress) => {
           cards.forEach((card, i) => {
-            const offset = i - progress;
+            gsap.set(card, { zIndex: total - i, force3D: true });
+          });
 
-            if (offset <= -1) {
-              gsap.set(card, { autoAlpha: 0 });
-              return;
-            }
+          const render = (progress) => {
+            cards.forEach((card, i) => {
+              const offset = i - progress;
 
-            if (offset < 0) {
-              const t = -offset;
+              if (offset <= -1) {
+                gsap.set(card, { autoAlpha: 0 });
+                return;
+              }
+
+              if (offset < 0) {
+                const t = -offset;
+                gsap.set(card, {
+                  autoAlpha: 1,
+                  yPercent: (isDesktop ? 130 : 110) * t * t,
+                  scale: 1 + (isDesktop ? 0.03 : 0.02) * t,
+                });
+                return;
+              }
+
+              if (offset > visibleDepth) {
+                gsap.set(card, { autoAlpha: 0 });
+                return;
+              }
+
               gsap.set(card, {
                 autoAlpha: 1,
-                yPercent: (isDesktop ? 130 : 110) * t * t,
-                scale: 1 + (isDesktop ? 0.03 : 0.02) * t,
+                yPercent: 0,
+                y: -stackOffset * offset,
+                scale: 1 - scaleStep * offset,
               });
-              return;
-            }
-
-            if (offset > visibleDepth) {
-              gsap.set(card, { autoAlpha: 0 });
-              return;
-            }
-
-            gsap.set(card, {
-              autoAlpha: 1,
-              yPercent: 0,
-              y: -stackOffset * offset,
-              scale: 1 - scaleStep * offset,
             });
+          };
+
+          const withHold = (p) => {
+            const i = Math.floor(p);
+            const f = p - i;
+            const hold = 0.31;
+
+            if (f < hold) return i;
+
+            const t = (f - hold) / (1 - hold);
+            const eased = t * t * (3 - 2 * t);
+            return i + eased;
+          };
+
+          render(0);
+
+          const state = { progress: 0 };
+
+          gsap.to(state, {
+            progress: total - 1,
+            ease: "none",
+            onUpdate: () => render(withHold(state.progress)),
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top top",
+              end: () =>
+                `+=${window.innerHeight * (isDesktop ? total - 1 : (total - 1) * 0.8)}`,
+              scrub: isDesktop ? 0.6 : 0.8,
+              pin: true,
+              pinSpacing: true,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
           });
-        };
-
-        const withHold = (p) => {
-          const i = Math.floor(p);
-          const f = p - i;
-          const hold = 0.31;
-
-          if (f < hold) return i;
-
-          const t = (f - hold) / (1 - hold);
-          const eased = t * t * (3 - 2 * t);
-          return i + eased;
-        };
-
-        render(0);
-
-        const state = { progress: 0 };
-
-        gsap.to(state, {
-          progress: total - 1,
-          ease: "none",
-          onUpdate: () => render(withHold(state.progress)),
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: () => `+=${window.innerHeight * (isDesktop ? (total - 1) : (total - 1) * 0.8)}`,
-            scrub: isDesktop ? 0.6 : 0.8,
-            pin: true,
-            pinSpacing: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        });
-      });
+        },
+      );
 
       const refresh = () => ScrollTrigger.refresh();
       window.addEventListener("load", refresh);
 
       return () => {
-          window.removeEventListener("load", refresh);
+        window.removeEventListener("load", refresh);
       };
     },
     { scope: sectionRef },
@@ -236,6 +147,8 @@ const Projects = () => {
   // ========================================================
   // RETURN
   // ========================================================
+
+  const navigate = useNavigate();
 
   return (
     <section
@@ -300,9 +213,16 @@ const Projects = () => {
                   </div>
 
                   {/* Button */}
-                  <div className="mt-4 md:mt-6 mb-2 md:mb-0">
+                  <div className="mt-4 md:mt-6 mb-2 md:mb-0 flex items-center gap-3">
+                    {/* View Project Button */}
                     <motion.button
-                      onClick={() => window.open(project.link, "_blank", "noopener,noreferrer")}
+                      onClick={() =>
+                        window.open(
+                          project.link,
+                          "_blank",
+                          "noopener,noreferrer",
+                        )
+                      }
                       type="button"
                       className="group inline-flex items-center gap-3 rounded-full border border-[#871304]/25 px-5 py-2.5 text-[10px] font-medium uppercase tracking-[0.08em] text-[#871304] transition-all duration-300 hover:bg-[#871304] hover:text-white md:px-6 md:py-3 md:text-xs"
                       whileHover={{
@@ -318,7 +238,6 @@ const Projects = () => {
                       }}
                     >
                       View project
-
                       <motion.span
                         className="text-base"
                         whileHover={{
@@ -332,6 +251,40 @@ const Projects = () => {
                         →
                       </motion.span>
                     </motion.button>
+
+                    {/* View Details Button */}
+                    <motion.div
+                      whileHover={{
+                        scale: 1.05,
+                        transition: {
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 15,
+                        },
+                      }}
+                      whileTap={{
+                        scale: 0.95,
+                      }}
+                    >
+                      <Link
+                        to={`/project/${project.id}`}
+                        className="group inline-flex items-center gap-3 rounded-full border border-[#871304]/25 px-5 py-2.5 text-[10px] font-medium uppercase tracking-[0.08em] text-[#871304] transition-all duration-300 hover:bg-[#871304] hover:text-white md:px-6 md:py-3 md:text-xs"
+                      >
+                        View details
+                        <motion.span
+                          className="text-base"
+                          whileHover={{
+                            x: 4,
+                            transition: {
+                              duration: 0.2,
+                              ease: "easeOut",
+                            },
+                          }}
+                        >
+                          →
+                        </motion.span>
+                      </Link>
+                    </motion.div>
                   </div>
                 </div>
 
